@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +51,7 @@ public class BannerServiceImpl implements BannerService {
                 .bannerUrl(parameter.getBannerUrl())
                 .openCase(parameter.getOpenCase())
                 .showYn(parameter.isShowYn())
-                .regDt(parameter.getRegDt())
+                .regDt(LocalDateTime.now())
                 .fileName(parameter.getFileName())
                 .urlFileName(parameter.getUrlFileName())
                 .build();
@@ -104,5 +106,19 @@ public class BannerServiceImpl implements BannerService {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<BannerDto> showList(BannerParam parameter) {
+        List<BannerDto> bannerDtoList = null;
+
+        Optional<List<Banner>> optionalBanners
+                = this.bannerRepository.findByShowYnOrderBySortNum(true);
+        if (optionalBanners.isPresent()) {
+            List<Banner> banners = optionalBanners.get();
+            bannerDtoList = BannerDto.of(banners);
+        }
+
+        return bannerDtoList;
     }
 }

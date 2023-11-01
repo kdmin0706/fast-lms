@@ -4,6 +4,10 @@ import com.zerobase.fastlms.admin.entity.Banner;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,6 +45,19 @@ public class BannerDto {
                 .fileName(banner.getFileName())
                 .urlFileName(banner.getUrlFileName())
                 .build();
+    }
+
+    public static List<BannerDto> of(List<Banner> banners) {
+        if (banners == null) {
+            return null;
+        }
+
+        List<BannerDto> list = new ArrayList<>();
+        for (Banner x : banners) {
+            list.add(BannerDto.of(x));
+        }
+
+        return list;
     }
 
 }

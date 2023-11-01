@@ -118,8 +118,7 @@ public class AdminBannerController extends BaseController {
 
         if (file != null) {
             String originalFilename = file.getOriginalFilename();
-
-            String baseLocalPath = "/Users/kyutaepark/Documents/sources/zerobase/fastlms/files";
+            String baseLocalPath = "./";
             String baseUrlPath = "/files";
 
             String[] arrFilename = getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
@@ -146,7 +145,7 @@ public class AdminBannerController extends BaseController {
             BannerDto existBanner = bannerService.getById(id);
             if (existBanner == null) {
                 // error 처리
-                model.addAttribute("message", "강좌정보가 존재하지 않습니다.");
+                model.addAttribute("message", "배너 정보가 존재하지 않습니다.");
                 return "common/error";
             }
 
