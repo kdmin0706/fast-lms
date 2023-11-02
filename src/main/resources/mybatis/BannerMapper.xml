@@ -17,4 +17,11 @@
             limit #{pageStart}, ${pageEnd}
     </select>
 
+    <select id="selectShowList" resultType="com.zerobase.fastlms.admin.dto.BannerDto">
+        select *
+        from banner
+        where show_yn = true
+        order by sort_num desc
+    </select>
+
 </mapper>
