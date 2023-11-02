@@ -118,7 +118,8 @@ public class AdminBannerController extends BaseController {
 
         if (file != null) {
             String originalFilename = file.getOriginalFilename();
-            String baseLocalPath = "./";
+
+            String baseLocalPath = "C:\\Users\\rudek\\Downloads\\fastlms\\files";
             String baseUrlPath = "/files";
 
             String[] arrFilename = getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
@@ -154,16 +155,12 @@ public class AdminBannerController extends BaseController {
         } else {
             boolean result = bannerService.add(parameter);
         }
-
         return "redirect:/admin/banner/list.do";
     }
 
     @PostMapping("/admin/banner/delete.do")
-    public String del(Model model, HttpServletRequest request
-            , BannerInput parameter) {
-
+    public String del(BannerInput parameter) {
         boolean result = bannerService.del(parameter.getIdList());
-
         return "redirect:/admin/banner/list.do";
     }
 }

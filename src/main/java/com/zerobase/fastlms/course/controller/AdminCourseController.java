@@ -129,10 +129,8 @@ public class AdminCourseController extends BaseController {
         
         if (file != null) {
             String originalFilename = file.getOriginalFilename();
-            
-            String baseLocalPath = "/Users/kyutaepark/Documents/sources/zerobase/fastlms/files";
+            String baseLocalPath = "C:\\Users\\rudek\\Downloads\\fastlms\\files";
             String baseUrlPath = "/files";
-            
             String[] arrFilename = getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
     
             saveFilename = arrFilename[0];
