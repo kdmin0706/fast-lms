@@ -107,15 +107,6 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public List<BannerDto> showList(BannerParam parameter) {
-        List<BannerDto> bannerDtoList = null;
-
-        Optional<List<Banner>> optionalBanners
-                = this.bannerRepository.findByShowYnOrderBySortNum(true);
-        if (optionalBanners.isPresent()) {
-            List<Banner> banners = optionalBanners.get();
-            bannerDtoList = BannerDto.of(banners);
-        }
-
-        return bannerDtoList;
+        return bannerMapper.selectShowList(parameter);
     }
 }
