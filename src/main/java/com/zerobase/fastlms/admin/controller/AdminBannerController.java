@@ -5,6 +5,7 @@ import com.zerobase.fastlms.admin.model.BannerInput;
 import com.zerobase.fastlms.admin.model.BannerParam;
 import com.zerobase.fastlms.admin.service.BannerService;
 import com.zerobase.fastlms.course.controller.BaseController;
+import com.zerobase.fastlms.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -71,42 +70,6 @@ public class AdminBannerController extends BaseController {
 
         return "admin/banner/add";
     }
-    private String[] getNewSaveFile(String baseLocalPath, String baseUrlPath, String originalFilename) {
-
-        LocalDate now = LocalDate.now();
-
-        String[] dirs = {
-                String.format("%s/%d/", baseLocalPath,now.getYear()),
-                String.format("%s/%d/%02d/", baseLocalPath, now.getYear(),now.getMonthValue()),
-                String.format("%s/%d/%02d/%02d/", baseLocalPath, now.getYear(), now.getMonthValue(), now.getDayOfMonth())};
-
-        String urlDir = String.format("%s/%d/%02d/%02d/", baseUrlPath, now.getYear(), now.getMonthValue(), now.getDayOfMonth());
-
-        for(String dir : dirs) {
-            File file = new File(dir);
-            if (!file.isDirectory()) {
-                file.mkdir();
-            }
-        }
-
-        String fileExtension = "";
-        if (originalFilename != null) {
-            int dotPos = originalFilename.lastIndexOf(".");
-            if (dotPos > -1) {
-                fileExtension = originalFilename.substring(dotPos + 1);
-            }
-        }
-
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        String newFilename = String.format("%s%s", dirs[2], uuid);
-        String newUrlFilename = String.format("%s%s", urlDir, uuid);
-        if (!fileExtension.isEmpty()) {
-            newFilename += "." + fileExtension;
-            newUrlFilename += "." + fileExtension;
-        }
-
-        return new String[]{newFilename, newUrlFilename};
-    }
 
     @PostMapping(value = {"/admin/banner/add.do", "/admin/banner/edit.do"})
     public String addSubmit(Model model, HttpServletRequest request
@@ -122,7 +85,7 @@ public class AdminBannerController extends BaseController {
             String baseLocalPath = "C:\\Users\\rudek\\Downloads\\fastlms\\files";
             String baseUrlPath = "/files";
 
-            String[] arrFilename = getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
+            String[] arrFilename = FileUtil.getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
 
             saveFilename = arrFilename[0];
             urlFilename = arrFilename[1];
