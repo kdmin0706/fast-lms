@@ -41,3 +41,4 @@ build/
 /target/
 /mvnw
 /mvnw.cmd
+/src/main/webapp/files
