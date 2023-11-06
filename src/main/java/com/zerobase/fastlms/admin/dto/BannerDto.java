@@ -4,8 +4,7 @@ import com.zerobase.fastlms.admin.entity.Banner;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -45,17 +44,8 @@ public class BannerDto {
                 .build();
     }
 
-    public static List<BannerDto> of(List<Banner> banners) {
-        if (banners == null) {
-            return null;
-        }
-
-        List<BannerDto> list = new ArrayList<>();
-        for (Banner x : banners) {
-            list.add(BannerDto.of(x));
-        }
-
-        return list;
+    public String getRegDtText() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+        return regDt != null ? regDt.format(formatter) : "";
     }
-
 }

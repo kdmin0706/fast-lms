@@ -120,7 +120,7 @@
                     <img th:src="${x.urlFileName}" style="width: 100px" th:alt="${x.bannerName}" />
                 </td>
                 <td>
-                    <p th:text="${x.regDt}">2023.11.01</p>
+                    <p th:text="${x.getRegDtText()}">2023.11.01</p>
                 </td>
             </tr>
         </tbody>
