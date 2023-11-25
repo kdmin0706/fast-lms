@@ -76,31 +76,9 @@ public class AdminBannerController extends BaseController {
             , MultipartFile file
             , BannerInput parameter) {
 
-        String saveFilename = "";
-        String urlFilename = "";
-
-        if (file != null) {
-            String originalFilename = file.getOriginalFilename();
-
-            String baseLocalPath = "C:\\Users\\rudek\\Downloads\\fastlms\\src\\main\\webapp\\files";
-            String baseUrlPath = "/files";
-
-            String[] arrFilename = FileUtil.getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
-
-            saveFilename = arrFilename[0];
-            urlFilename = arrFilename[1];
-
-            try {
-                File newFile = new File(saveFilename);
-                FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(newFile));
-            } catch (IOException e) {
-                log.info("############################ - 1");
-                log.info(e.getMessage());
-            }
-        }
-
-        parameter.setFileName(saveFilename);
-        parameter.setUrlFileName(urlFilename);
+        String[] filePath = FileUtil.getFilePath(file);
+        parameter.setFileName(filePath[0]);
+        parameter.setUrlFileName(filePath[1]);
 
         boolean editMode = request.getRequestURI().contains("/edit.do");
 

@@ -1,9 +1,16 @@
 package com.zerobase.fastlms.util;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Slf4j
 public class FileUtil {
     public static String[] getNewSaveFile(String baseLocalPath, String baseUrlPath, String originalFilename) {
 
@@ -40,5 +47,31 @@ public class FileUtil {
         }
 
         return new String[]{newFilename, newUrlFilename};
+    }
+
+
+    public static String[] getFilePath(MultipartFile file) {
+        String saveFilename = "";
+        String urlFilename = "";
+
+        if (file != null) {
+            String originalFilename = file.getOriginalFilename();
+            String baseLocalPath = "C:\\Users\\rudek\\Downloads\\fastlms\\src\\main\\webapp\\files";
+            String baseUrlPath = "/files";
+            String[] arrFilename = FileUtil.getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
+
+            saveFilename = arrFilename[0];
+            urlFilename = arrFilename[1];
+
+            try {
+                File newFile = new File(saveFilename);
+                FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(newFile.toPath()));
+            } catch (IOException e) {
+                log.info("############################ - 1");
+                log.info(e.getMessage());
+            }
+        }
+
+        return new String[]{saveFilename, urlFilename};
     }
 }

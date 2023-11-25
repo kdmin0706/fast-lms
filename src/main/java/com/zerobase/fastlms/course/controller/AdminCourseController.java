@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @Slf4j
@@ -87,30 +88,10 @@ public class AdminCourseController extends BaseController {
     public String addSubmit(Model model, HttpServletRequest request
                             , MultipartFile file
             , CourseInput parameter) {
-    
-        String saveFilename = "";
-        String urlFilename = "";
-        
-        if (file != null) {
-            String originalFilename = file.getOriginalFilename();
-            String baseLocalPath = "C:\\Users\\rudek\\Downloads\\fastlms\\src\\main\\webapp\\files";
-            String baseUrlPath = "/files";
-            String[] arrFilename = FileUtil.getNewSaveFile(baseLocalPath, baseUrlPath, originalFilename);
-    
-            saveFilename = arrFilename[0];
-            urlFilename = arrFilename[1];
-            
-            try {
-                File newFile = new File(saveFilename);
-                FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(newFile));
-            } catch (IOException e) {
-                log.info("############################ - 1");
-                log.info(e.getMessage());
-            }
-        }
-        
-        parameter.setFilename(saveFilename);
-        parameter.setUrlFilename(urlFilename);
+
+        String[] filePath = FileUtil.getFilePath(file);
+        parameter.setFilename(filePath[0]);
+        parameter.setUrlFilename(filePath[1]);
         
         boolean editMode = request.getRequestURI().contains("/edit.do");
         
